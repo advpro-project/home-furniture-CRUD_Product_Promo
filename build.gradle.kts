@@ -1,5 +1,6 @@
 plugins {
     java
+    jacoco
     id("org.springframework.boot") version "3.2.4"
     id("io.spring.dependency-management") version "1.1.4"
 }
@@ -33,4 +34,24 @@ dependencies {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.test {
+	filter {
+		excludeTestsMatching("*FunctionalTest")
+	}
+
+	finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+	classDirectories.setFrom(files(classDirectories.files.map {
+		fileTree(it) { exclude("**/*Application**") }
+	}))
+	dependsOn(tasks.test)
+	reports {
+		xml.required.set(true)
+		csv.required.set(true)
+		html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
+	}
 }
