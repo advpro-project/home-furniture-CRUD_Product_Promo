@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 public class ProductController {
 
     @GetMapping("")
-    public String authPage(Model model){
-        return "authPage";
+    public String productPage(Model model){
+        return "ProductPage";
     }
 }
