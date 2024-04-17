@@ -52,7 +52,9 @@ jobs:
           distribution: "temurin"
           java-version: "21"
           cache: "gradle"
-
+      
+      - name: Make Gradlew executable
+        run: chmod +x ./gradlew
       - name: Build with Gradle
         run: ./gradlew build
 
