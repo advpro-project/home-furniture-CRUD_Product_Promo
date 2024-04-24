@@ -5,19 +5,19 @@ import java.util.List;
 import java.util.UUID;
 
 public class ProductRepository {
-    Product addProduct(Product product) {
+    public Product addProduct(Product product) {
         return null;
     }
-    Product updateProduct(UUID productId, Product product) {
+    public Product updateProduct(UUID productId, Product product) {
         return null;
     }
-    void deleteProduct(UUID productId) {
+    public void deleteProduct(UUID productId) {
         
     }
-    Product getProductById(UUID productId) {
+    public Product getProductById(UUID productId) {
         return null;
     }
-    List<Product> getTop10PopularProducts() {
+    public List<Product> getTop10PopularProducts() {
         return null;
     }
 }
