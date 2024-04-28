@@ -10,4 +10,5 @@ public interface ProductService {
     void deleteProduct(UUID productId);
     Product getProductById(UUID productId);
     List<Product> getTop10PopularProducts();
+    List<Product> getAllProducts();
 }

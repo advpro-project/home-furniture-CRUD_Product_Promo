@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class ProductServiceImpl implements ProductService {
 
-    private final ProductRepository productRepository= new ProductRepository();
+    private final ProductRepository productRepository = new ProductRepository();
 
     @Override
     public Product addProduct(Product product) {
@@ -33,5 +33,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getTop10PopularProducts() {
         return productRepository.getTop10PopularProducts();
+    }
+
+    public List<Product> getAllProducts() {
+        return productRepository.getAllProducts(); 
     }
 }
