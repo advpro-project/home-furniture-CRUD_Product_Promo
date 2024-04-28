@@ -18,8 +18,10 @@ public class ProductController {
     private final ProductServiceImpl productService = new ProductServiceImpl();
 
     @GetMapping("")
-    public String authPage(Model model){
-        return "authPage";
+    public String productPage(Model model) {
+        List<Product> allProducts = productService.getAllProducts();
+        model.addAttribute("products", allProducts);
+        return "ProductPage";
     }
 
     @PostMapping("/register")
