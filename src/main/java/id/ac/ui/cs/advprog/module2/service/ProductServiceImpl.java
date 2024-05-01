@@ -28,9 +28,9 @@ public class ProductServiceImpl implements ProductService {
 
             // Update the existing product with new data
             existingProduct.setName(newProduct.getName());
-            existingProduct.setCategory(newProduct.getCategory());
+            existingProduct.setType(newProduct.getType());
             existingProduct.setDescription(newProduct.getDescription());
-            existingProduct.setImage(newProduct.getImage());
+            existingProduct.setImageUrl(newProduct.getImageUrl());
             existingProduct.setOriginalPrice(newProduct.getOriginalPrice());
             existingProduct.setDiscountedPrice(newProduct.getDiscountedPrice());
 
@@ -55,15 +55,24 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProductById(UUID productId) {
-        return productRepository.getProductById(productId);
+        Optional<Product> productOptional = productRepository.findById(productId);
+
+        // Check if the product exists
+        if (productOptional.isPresent()) {
+            // Return the product if found
+            return productOptional.get();
+        } else {
+            // Throw an exception if the product is not found
+            throw new RuntimeException("Product with ID " + productId + " not found");
+        }
     }
 
     @Override
-    public List<Product> getTop10PopularProducts() {
-        return productRepository.getTop10PopularProducts();
+    public List<Product> getTop10Products() {
+        return productRepository.findFirst10ByOrderBySoldQuantityDesc();
     }
 
     public List<Product> getAllProducts() {
-        return productRepository.getAllProducts(); 
+        return productRepository.findAll();
     }
 }

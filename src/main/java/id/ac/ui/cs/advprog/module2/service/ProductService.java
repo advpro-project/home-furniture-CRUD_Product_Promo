@@ -9,6 +9,6 @@ public interface ProductService {
     Product updateProduct(UUID productId, Product product);
     void deleteProduct(UUID productId);
     Product getProductById(UUID productId);
-    List<Product> getTop10PopularProducts();
+    List<Product> getTop10Products();
     List<Product> getAllProducts();
 }
