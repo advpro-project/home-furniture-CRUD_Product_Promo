@@ -44,25 +44,17 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProduct(UUID productId) {
-        Optional<Product> productOptional = productRepository.findById(productId);
-
-        if (productOptional.isPresent()) {
-            productRepository.delete(productOptional.get());
-        } else {
-            throw new RuntimeException("Product with ID " + productId + " not found");
-        }
+        Product product = getProductById(productId);
+        productRepository.delete(product);
     }
 
     @Override
     public Product getProductById(UUID productId) {
         Optional<Product> productOptional = productRepository.findById(productId);
-
-        // Check if the product exists
+        
         if (productOptional.isPresent()) {
-            // Return the product if found
             return productOptional.get();
         } else {
-            // Throw an exception if the product is not found
             throw new RuntimeException("Product with ID " + productId + " not found");
         }
     }
