@@ -41,6 +41,6 @@ public class ProductController {
 
     @GetMapping("/statistics/top10")
     public List<Product> getTop10PopularProducts() {
-        return productService.getTop10PopularProducts();
+        return productService.getTop10Products();
     }
 }

@@ -2,30 +2,55 @@ package id.ac.ui.cs.advprog.module2.service;
 
 import id.ac.ui.cs.advprog.module2.model.PromoCode;
 import id.ac.ui.cs.advprog.module2.repository.PromoCodeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class PromoCodeServiceImpl implements PromoCodeService {
     
-    private final PromoCodeRepository promoCodeRepository = new PromoCodeRepository();
+    @Autowired
+    PromoCodeRepository promoCodeRepository;
 
     @Override
     public PromoCode addPromoCode(PromoCode promoCode) {
-        return promoCodeRepository.addPromoCode(promoCode);
+        return promoCodeRepository.save(promoCode);
     }
 
     @Override
     public PromoCode updatePromoCode(UUID promoId, PromoCode promoCode) {
-        return promoCodeRepository.updatePromoCode(promoId, promoCode);
+        Optional<PromoCode> existingPromoOptional = promoCodeRepository.findById(promoId);
+        
+        if (existingPromoOptional.isPresent()) {
+            PromoCode existingPromo = existingPromoOptional.get();
+
+            // Update the existing product with new data
+            existingPromo.setName(promoCode.getName());
+            existingPromo.setDescription(promoCode.getDescription());
+            existingPromo.setMinimumPurchase(promoCode.getMinimumPurchase());
+            existingPromo.setValidUntil(promoCode.getValidUntil());
+
+            // Save the updated product back to the database
+            return promoCodeRepository.save(existingPromo);
+        } else {
+            // Handle case where product with given ID is not found
+            throw new RuntimeException("Product with ID " + promoId + " not found");
+        }
     }
 
     @Override
     public void deletePromoCode(UUID promoId) {
-        promoCodeRepository.deletePromoCode(promoId);
+        promoCodeRepository.deleteById(promoId);
     }
 
     @Override
     public PromoCode getPromoCodeById(UUID promoId) {
-        return promoCodeRepository.getPromoCodeById(promoId);
+        Optional<PromoCode> promoOptional = promoCodeRepository.findById(promoId);
+        
+        if (promoOptional.isPresent()) {
+            return promoOptional.get();
+        } else {
+            throw new RuntimeException("Product with ID " + promoId + " not found");
+        }
     }
 }
