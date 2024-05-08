@@ -5,6 +5,7 @@ import id.ac.ui.cs.advprog.module2.service.PromoCodeServiceImpl;
 
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/promos")
 public class PromoCodeController {
 
-    private final PromoCodeServiceImpl promoCodeService = new PromoCodeServiceImpl();
+    @Autowired
+    PromoCodeServiceImpl promoCodeService;
 
     @PostMapping("/register")
     public PromoCode registerPromoCode(@RequestBody PromoCode promoCode) {

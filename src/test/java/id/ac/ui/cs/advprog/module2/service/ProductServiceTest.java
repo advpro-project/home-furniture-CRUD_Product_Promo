@@ -3,9 +3,9 @@ import id.ac.ui.cs.advprog.module2.model.Product;
 import id.ac.ui.cs.advprog.module2.repository.ProductRepository;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,13 +15,15 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
+@DataJpaTest
 public class ProductServiceTest {
 
-    private ProductService productService;
+    @Autowired
+    ProductServiceImpl productService;
 
-    @Mock
-    private ProductRepository productRepository;
+    @MockBean
+    @Autowired
+    ProductRepository productRepository;
 
     @Test
     public void testGetProductById() {

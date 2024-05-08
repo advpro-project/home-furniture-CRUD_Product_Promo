@@ -6,6 +6,7 @@ import id.ac.ui.cs.advprog.module2.service.ProductServiceImpl;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,8 @@ import org.springframework.ui.Model;
 @RequestMapping("/products")
 public class ProductController {
 
-    private final ProductServiceImpl productService = new ProductServiceImpl();
+    @Autowired
+    ProductServiceImpl productService;
 
     @GetMapping("")
     public String productPage(Model model) {

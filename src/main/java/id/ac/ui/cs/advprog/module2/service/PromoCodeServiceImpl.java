@@ -3,10 +3,13 @@ package id.ac.ui.cs.advprog.module2.service;
 import id.ac.ui.cs.advprog.module2.model.PromoCode;
 import id.ac.ui.cs.advprog.module2.repository.PromoCodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public class PromoCodeServiceImpl implements PromoCodeService {
     
     @Autowired
@@ -44,6 +47,7 @@ public class PromoCodeServiceImpl implements PromoCodeService {
     }
 
     @Override
+    @Async
     public PromoCode getPromoCodeById(UUID promoId) {
         Optional<PromoCode> promoOptional = promoCodeRepository.findById(promoId);
         

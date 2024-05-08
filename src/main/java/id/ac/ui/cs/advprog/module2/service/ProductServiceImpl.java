@@ -4,11 +4,14 @@ import id.ac.ui.cs.advprog.module2.model.Product;
 import id.ac.ui.cs.advprog.module2.repository.ProductRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.Optional;
 
+@Service
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
@@ -49,6 +52,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Async
     public Product getProductById(UUID productId) {
         Optional<Product> productOptional = productRepository.findById(productId);
         
@@ -64,6 +68,8 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findFirst10ByOrderBySoldQuantityDesc();
     }
 
+    @Override
+    @Async
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }

@@ -20,8 +20,14 @@
                         <p th:text="${product.description}" class="card-text">Product Description</p>
                         <p th:text="${product.price}" class="card-text">Price: $XX.XX</p>
                         <!-- Add more details or buttons as needed -->
-                        <a href="#" class="btn btn-primary">Edit Product</a>
-                        <a href="#" class="btn btn-danger">Delete Product</a>
+                        <form action="/products/{productId}" method="put">
+                            <input type="hidden" name="productId" th:value="${product.id}">
+                            <button type="submit" class="btn btn-warning">Edit Product</button>
+                        </form>
+                        <form action="/products/{productId}" method="delete">
+                            <input type="hidden" name="productId" th:value="${product.id}">
+                            <button type="submit" class="btn btn-danger">Delete Product</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -29,8 +35,41 @@
         <hr>
         <!-- Button to manage promocodes -->
         <a href="#" class="btn btn-success">Manage Promo codes</a>
+        
         <!-- Button to add new product -->
-        <a href="#" class="btn btn-primary">Add Product</a>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addProductModal">Add Product</button>
+        
+        <!-- Add Product Modal -->
+        <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addProductModalLabel">Add New Product</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Form to add new product -->
+                        <form action="/products/register" object="${product}" method="post">
+                            <div class="form-group">
+                                <label for="productName">Product Name:</label>
+                                <input field="*{name}" type="text" class="form-control" id="productName" name="productName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="productDescription">Product Description:</label>
+                                <input field="*{description}" type="text" class="form-control" id="productDescription" name="productDescription" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="productPrice">Product Price:</label>
+                                <input field="*{originalPrice}" type="number" class="form-control" id="productPrice" name="productPrice" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Bootstrap JS -->
