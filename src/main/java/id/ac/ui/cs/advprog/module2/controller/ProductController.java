@@ -1,15 +1,48 @@
 package id.ac.ui.cs.advprog.module2.controller;
 
+import id.ac.ui.cs.advprog.module2.model.Product;
+import id.ac.ui.cs.advprog.module2.service.ProductServiceImpl;
+
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
 import org.springframework.ui.Model;
 
 @Controller
 @RequestMapping("/")
 public class ProductController {
 
+    @Autowired
+    ProductServiceImpl productService;
+
     @GetMapping("")
-    public String productPage(Model model){
+    public String productPage(Model model) {
+        List<Product> allProducts = productService.getAllProducts();
+        model.addAttribute("products", allProducts);
         return "ProductPage";
+    }
+
+    @PostMapping("/register")
+    public Product registerProduct(@RequestBody Product product) {
+        return productService.addProduct(product);
+    }
+
+    @PutMapping("/{productId}")
+    public Product updateProduct(@PathVariable UUID productId, @RequestBody Product product) {
+        return productService.updateProduct(productId, product);
+    }
+
+    @DeleteMapping("/{productId}")
+    public void deleteProduct(@PathVariable UUID productId) {
+        productService.deleteProduct(productId);
+    }
+
+    @GetMapping("/statistics/top10")
+    public List<Product> getTop10PopularProducts() {
+        return productService.getTop10Products();
     }
 }
