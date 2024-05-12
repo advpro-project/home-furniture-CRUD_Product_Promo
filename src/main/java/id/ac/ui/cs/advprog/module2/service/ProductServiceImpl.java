@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.Optional;
 
 @Service
@@ -23,7 +23,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(UUID productId, Product newProduct) {
+    public Product updateProduct(Long productId, Product newProduct) {
         Optional<Product> existingProductOptional = productRepository.findById(productId);
         
         if (existingProductOptional.isPresent()) {
@@ -46,18 +46,21 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProduct(UUID productId) {
-        Product product = getProductById(productId);
-        productRepository.delete(product);
+    public void deleteProduct(Long productId) {
+        CompletableFuture<Product> productFuture = getProductById(productId);
+
+        productFuture.thenAccept(product -> {
+            productRepository.delete(product);
+        }).join();
     }
 
     @Override
     @Async
-    public Product getProductById(UUID productId) {
+    public CompletableFuture<Product> getProductById(Long productId) {
         Optional<Product> productOptional = productRepository.findById(productId);
         
         if (productOptional.isPresent()) {
-            return productOptional.get();
+            return CompletableFuture.completedFuture(productOptional.get());
         } else {
             throw new RuntimeException("Product with ID " + productId + " not found");
         }
@@ -69,8 +72,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Async
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public CompletableFuture<List<Product>> getAllProducts() {
+        List<Product> allProducts = productRepository.findAll();
+        return CompletableFuture.completedFuture(allProducts);
     }
 }

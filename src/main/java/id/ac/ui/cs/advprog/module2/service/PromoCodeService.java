@@ -1,11 +1,11 @@
 package id.ac.ui.cs.advprog.module2.service;
-import id.ac.ui.cs.advprog.module2.model.PromoCode;
+import java.util.concurrent.CompletableFuture;
 
-import java.util.UUID;
+import id.ac.ui.cs.advprog.module2.model.PromoCode;
 
 public interface PromoCodeService {
     PromoCode addPromoCode(PromoCode promoCode);
-    PromoCode updatePromoCode(UUID promoId, PromoCode promoCode);
-    void deletePromoCode(UUID promoId);
-    PromoCode getPromoCodeById(UUID promoId);
+    PromoCode updatePromoCode(Long promoId, PromoCode promoCode);
+    void deletePromoCode(Long promoId);
+    CompletableFuture<PromoCode> getPromoCodeById(Long promoId);
 }

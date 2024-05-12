@@ -4,7 +4,7 @@ import id.ac.ui.cs.advprog.module2.model.Product;
 import id.ac.ui.cs.advprog.module2.service.ProductServiceImpl;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,8 +21,12 @@ public class ProductController {
 
     @GetMapping("")
     public String productPage(Model model) {
-        List<Product> allProducts = productService.getAllProducts();
-        model.addAttribute("products", allProducts);
+        CompletableFuture<List<Product>> productFuture = productService.getAllProducts();
+
+        productFuture.thenAccept(productList -> {
+            model.addAttribute("products", productList);
+        }).join();
+
         return "ProductPage";
     }
 
@@ -32,12 +36,12 @@ public class ProductController {
     }
 
     @PutMapping("/{productId}")
-    public Product updateProduct(@PathVariable UUID productId, @RequestBody Product product) {
+    public Product updateProduct(@PathVariable Long productId, @RequestBody Product product) {
         return productService.updateProduct(productId, product);
     }
 
     @DeleteMapping("/{productId}")
-    public void deleteProduct(@PathVariable UUID productId) {
+    public void deleteProduct(@PathVariable Long productId) {
         productService.deleteProduct(productId);
     }
 

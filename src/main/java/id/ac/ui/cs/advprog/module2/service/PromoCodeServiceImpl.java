@@ -5,9 +5,9 @@ import id.ac.ui.cs.advprog.module2.repository.PromoCodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import java.util.concurrent.CompletableFuture;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class PromoCodeServiceImpl implements PromoCodeService {
@@ -21,7 +21,7 @@ public class PromoCodeServiceImpl implements PromoCodeService {
     }
 
     @Override
-    public PromoCode updatePromoCode(UUID promoId, PromoCode promoCode) {
+    public PromoCode updatePromoCode(Long promoId, PromoCode promoCode) {
         Optional<PromoCode> existingPromoOptional = promoCodeRepository.findById(promoId);
         
         if (existingPromoOptional.isPresent()) {
@@ -42,19 +42,19 @@ public class PromoCodeServiceImpl implements PromoCodeService {
     }
 
     @Override
-    public void deletePromoCode(UUID promoId) {
+    public void deletePromoCode(Long promoId) {
         promoCodeRepository.deleteById(promoId);
     }
 
     @Override
     @Async
-    public PromoCode getPromoCodeById(UUID promoId) {
-        Optional<PromoCode> promoOptional = promoCodeRepository.findById(promoId);
+    public CompletableFuture<PromoCode> getPromoCodeById(Long productId) {
+        Optional<PromoCode> promoOptional = promoCodeRepository.findById(productId);
         
         if (promoOptional.isPresent()) {
-            return promoOptional.get();
+            return CompletableFuture.completedFuture(promoOptional.get());
         } else {
-            throw new RuntimeException("Product with ID " + promoId + " not found");
+            throw new RuntimeException("Product with ID " + productId + " not found");
         }
     }
 }
