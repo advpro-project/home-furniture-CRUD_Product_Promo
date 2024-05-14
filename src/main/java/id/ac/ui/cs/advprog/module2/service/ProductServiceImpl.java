@@ -1,6 +1,6 @@
 package id.ac.ui.cs.advprog.module2.service;
 
-import id.ac.ui.cs.advprog.module2.model.Product;
+import id.ac.ui.cs.advprog.module2.model.Furniture;
 import id.ac.ui.cs.advprog.module2.repository.ProductRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,59 +18,59 @@ public class ProductServiceImpl implements ProductService {
     ProductRepository productRepository;
 
     @Override
-    public Product addProduct(Product product) {
-        return productRepository.save(product);
+    public Furniture addProduct(Furniture furniture) {
+        return productRepository.save(furniture);
     }
 
     @Override
-    public Product updateProduct(UUID productId, Product newProduct) {
-        Optional<Product> existingProductOptional = productRepository.findById(productId);
+    public Furniture updateProduct(UUID productId, Furniture newFurniture) {
+        Optional<Furniture> existingProductOptional = productRepository.findById(productId);
         
         if (existingProductOptional.isPresent()) {
-            Product existingProduct = existingProductOptional.get();
+            Furniture existingFurniture = existingProductOptional.get();
 
             // Update the existing product with new data
-            existingProduct.setName(newProduct.getName());
-            existingProduct.setType(newProduct.getType());
-            existingProduct.setDescription(newProduct.getDescription());
-            existingProduct.setImageUrl(newProduct.getImageUrl());
-            existingProduct.setOriginalPrice(newProduct.getOriginalPrice());
-            existingProduct.setDiscountedPrice(newProduct.getDiscountedPrice());
+            existingFurniture.setName(newFurniture.getName());
+            existingFurniture.setType(newFurniture.getType());
+            existingFurniture.setDescription(newFurniture.getDescription());
+            existingFurniture.setImageUrl(newFurniture.getImageUrl());
+            existingFurniture.setOriginalPrice(newFurniture.getOriginalPrice());
+            existingFurniture.setDiscountedPrice(newFurniture.getDiscountedPrice());
 
             // Save the updated product back to the database
-            return productRepository.save(existingProduct);
+            return productRepository.save(existingFurniture);
         } else {
             // Handle case where product with given ID is not found
-            throw new RuntimeException("Product with ID " + productId + " not found");
+            throw new RuntimeException("Furniture with ID " + productId + " not found");
         }
     }
 
     @Override
     public void deleteProduct(UUID productId) {
-        Product product = getProductById(productId);
-        productRepository.delete(product);
+        Furniture furniture = getProductById(productId);
+        productRepository.delete(furniture);
     }
 
     @Override
     @Async
-    public Product getProductById(UUID productId) {
-        Optional<Product> productOptional = productRepository.findById(productId);
+    public Furniture getProductById(UUID productId) {
+        Optional<Furniture> productOptional = productRepository.findById(productId);
         
         if (productOptional.isPresent()) {
             return productOptional.get();
         } else {
-            throw new RuntimeException("Product with ID " + productId + " not found");
+            throw new RuntimeException("Furniture with ID " + productId + " not found");
         }
     }
 
     @Override
-    public List<Product> getTop10Products() {
+    public List<Furniture> getTop10Products() {
         return productRepository.findFirst10ByOrderBySoldQuantityDesc();
     }
 
     @Override
     @Async
-    public List<Product> getAllProducts() {
+    public List<Furniture> getAllProducts() {
         return productRepository.findAll();
     }
 }

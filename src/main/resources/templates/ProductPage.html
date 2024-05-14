@@ -11,21 +11,21 @@
     <div class="container">
         <h1>All Products</h1>
         <div class="row">
-            <!-- Loop through all products and display each product -->
-            <div th:each="product : ${products}" class="col-md-4 mb-4">
+            <!-- Loop through all furnitures and display each furniture -->
+            <div th:each="furniture : ${furnitures}" class="col-md-4 mb-4">
                 <div class="card">
-                    <img th:src="${product.image}" class="card-img-top" alt="Product Image">
+                    <img th:src="${furniture.image}" class="card-img-top" alt="Product Image">
                     <div class="card-body">
-                        <h5 th:text="${product.name}" class="card-title">Product Name</h5>
-                        <p th:text="${product.description}" class="card-text">Product Description</p>
-                        <p th:text="${product.price}" class="card-text">Price: $XX.XX</p>
+                        <h5 th:text="${furniture.name}" class="card-title">Product Name</h5>
+                        <p th:text="${furniture.description}" class="card-text">Product Description</p>
+                        <p th:text="${furniture.price}" class="card-text">Price: $XX.XX</p>
                         <!-- Add more details or buttons as needed -->
-                        <form action="/products/{productId}" method="put">
-                            <input type="hidden" name="productId" th:value="${product.id}">
+                        <form action="/furnitures/{productId}" method="put">
+                            <input type="hidden" name="productId" th:value="${furniture.id}">
                             <button type="submit" class="btn btn-warning">Edit Product</button>
                         </form>
-                        <form action="/products/{productId}" method="delete">
-                            <input type="hidden" name="productId" th:value="${product.id}">
+                        <form action="/furnitures/{productId}" method="delete">
+                            <input type="hidden" name="productId" th:value="${furniture.id}">
                             <button type="submit" class="btn btn-danger">Delete Product</button>
                         </form>
                     </div>
@@ -36,10 +36,10 @@
         <!-- Button to manage promocodes -->
         <a href="#" class="btn btn-success">Manage Promo codes</a>
         
-        <!-- Button to add new product -->
+        <!-- Button to add new furniture -->
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addProductModal">Add Product</button>
         
-        <!-- Add Product Modal -->
+        <!-- Add Furniture Modal -->
         <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -50,8 +50,8 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <!-- Form to add new product -->
-                        <form action="/products/register" object="${product}" method="post">
+                        <!-- Form to add new furniture -->
+                        <form action="/furnitures/register" object="${furniture}" method="post">
                             <div class="form-group">
                                 <label for="productName">Product Name:</label>
                                 <input field="*{name}" type="text" class="form-control" id="productName" name="productName" required>
