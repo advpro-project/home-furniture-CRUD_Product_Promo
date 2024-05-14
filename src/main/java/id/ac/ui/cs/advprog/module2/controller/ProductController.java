@@ -1,7 +1,7 @@
 package id.ac.ui.cs.advprog.module2.controller;
 
-import id.ac.ui.cs.advprog.module2.model.Product;
-import id.ac.ui.cs.advprog.module2.service.ProductServiceImpl;
+import id.ac.ui.cs.advprog.module2.model.Furniture;
+import id.ac.ui.cs.advprog.module2.service.FurnitureServiceImpl;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -17,7 +17,7 @@ import org.springframework.ui.Model;
 public class ProductController {
 
     @Autowired
-    ProductServiceImpl productService;
+    FurnitureServiceImpl productService;
 
     @GetMapping("")
     public String productPage(Model model) {
@@ -31,8 +31,8 @@ public class ProductController {
     }
 
     @PostMapping("/register")
-    public Product registerProduct(@RequestBody Product product) {
-        return productService.addProduct(product);
+    public Furniture registerProduct(@RequestBody Furniture furniture) {
+        return productService.addProduct(furniture);
     }
 
     @PutMapping("/{productId}")
@@ -46,7 +46,7 @@ public class ProductController {
     }
 
     @GetMapping("/statistics/top10")
-    public List<Product> getTop10PopularProducts() {
+    public List<Furniture> getTop10PopularProducts() {
         return productService.getTop10Products();
     }
 }
