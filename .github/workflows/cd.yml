@@ -3,7 +3,6 @@ name: GCD CI/CD Pipeline
 on:
   push:
     branches:
-      - main
       - deploy
 
 jobs:
