@@ -1,7 +1,7 @@
 package id.ac.ui.cs.advprog.module2.service;
 
 import id.ac.ui.cs.advprog.module2.model.Furniture;
-import id.ac.ui.cs.advprog.module2.repository.ProductRepository;
+import id.ac.ui.cs.advprog.module2.repository.FurnitureRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -12,19 +12,19 @@ import java.util.UUID;
 import java.util.Optional;
 
 @Service
-public class ProductServiceImpl implements ProductService {
+public class FurnitureServiceImpl implements FurnitureService {
 
     @Autowired
-    ProductRepository productRepository;
+    FurnitureRepository furnitureRepository;
 
     @Override
     public Furniture addProduct(Furniture furniture) {
-        return productRepository.save(furniture);
+        return furnitureRepository.save(furniture);
     }
 
     @Override
     public Furniture updateProduct(UUID productId, Furniture newFurniture) {
-        Optional<Furniture> existingProductOptional = productRepository.findById(productId);
+        Optional<Furniture> existingProductOptional = furnitureRepository.findById(productId);
         
         if (existingProductOptional.isPresent()) {
             Furniture existingFurniture = existingProductOptional.get();
@@ -38,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
             existingFurniture.setDiscountedPrice(newFurniture.getDiscountedPrice());
 
             // Save the updated product back to the database
-            return productRepository.save(existingFurniture);
+            return furnitureRepository.save(existingFurniture);
         } else {
             // Handle case where product with given ID is not found
             throw new RuntimeException("Furniture with ID " + productId + " not found");
@@ -48,13 +48,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProduct(UUID productId) {
         Furniture furniture = getProductById(productId);
-        productRepository.delete(furniture);
+        furnitureRepository.delete(furniture);
     }
 
     @Override
     @Async
     public Furniture getProductById(UUID productId) {
-        Optional<Furniture> productOptional = productRepository.findById(productId);
+        Optional<Furniture> productOptional = furnitureRepository.findById(productId);
         
         if (productOptional.isPresent()) {
             return productOptional.get();
@@ -65,12 +65,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Furniture> getTop10Products() {
-        return productRepository.findFirst10ByOrderBySoldQuantityDesc();
+        return furnitureRepository.findFirst10ByOrderBySoldQuantityDesc();
     }
 
     @Override
     @Async
     public List<Furniture> getAllProducts() {
-        return productRepository.findAll();
+        return furnitureRepository.findAll();
     }
 }

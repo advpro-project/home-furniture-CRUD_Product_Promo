@@ -1,7 +1,7 @@
 package id.ac.ui.cs.advprog.module2.controller;
 
 import id.ac.ui.cs.advprog.module2.model.Furniture;
-import id.ac.ui.cs.advprog.module2.service.ProductServiceImpl;
+import id.ac.ui.cs.advprog.module2.service.FurnitureServiceImpl;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,7 +17,7 @@ import org.springframework.ui.Model;
 public class ProductController {
 
     @Autowired
-    ProductServiceImpl productService;
+    FurnitureServiceImpl productService;
 
     @GetMapping("")
     public String productPage(Model model) {

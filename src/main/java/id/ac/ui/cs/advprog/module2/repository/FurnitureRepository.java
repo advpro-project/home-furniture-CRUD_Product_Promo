@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Furniture, UUID> {
+public interface FurnitureRepository extends JpaRepository<Furniture, UUID> {
     List<Furniture> findFirst10ByOrderBySoldQuantityDesc();
 }
