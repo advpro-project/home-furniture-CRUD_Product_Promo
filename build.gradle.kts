@@ -1,8 +1,17 @@
 plugins {
     java
     jacoco
+    id("org.sonarqube") version "4.4.1.3373"
     id("org.springframework.boot") version "3.2.4"
     id("io.spring.dependency-management") version "1.1.4"
+}
+
+sonar {
+    properties {
+        property("sonar.projectKey", "advpro-project_home-furniture-CRUD_Product_Promo")
+        property("sonar.organization", "advpro-project")
+        property("sonar.host.url", "https://sonarcloud.io")
+    }
 }
 
 group = "id.ac.ui.cs.advprog"
@@ -25,13 +34,14 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    implementation("org.postgresql:postgresql:42.2.24")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.postgresql:postgresql")
+    runtimeOnly("com.h2database:h2")
 }
 
 tasks.withType<Test> {
