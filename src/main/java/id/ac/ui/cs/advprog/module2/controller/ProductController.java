@@ -1,6 +1,6 @@
 package id.ac.ui.cs.advprog.module2.controller;
 
-import id.ac.ui.cs.advprog.module2.model.Product;
+import id.ac.ui.cs.advprog.module2.model.Furniture;
 import id.ac.ui.cs.advprog.module2.service.ProductServiceImpl;
 
 import java.util.List;
@@ -21,19 +21,19 @@ public class ProductController {
 
     @GetMapping("")
     public String productPage(Model model) {
-        List<Product> allProducts = productService.getAllProducts();
-        model.addAttribute("products", allProducts);
+        List<Furniture> allFurnitures = productService.getAllProducts();
+        model.addAttribute("products", allFurnitures);
         return "ProductPage";
     }
 
     @PostMapping("/register")
-    public Product registerProduct(@RequestBody Product product) {
-        return productService.addProduct(product);
+    public Furniture registerProduct(@RequestBody Furniture furniture) {
+        return productService.addProduct(furniture);
     }
 
     @PutMapping("/{productId}")
-    public Product updateProduct(@PathVariable UUID productId, @RequestBody Product product) {
-        return productService.updateProduct(productId, product);
+    public Furniture updateProduct(@PathVariable UUID productId, @RequestBody Furniture furniture) {
+        return productService.updateProduct(productId, furniture);
     }
 
     @DeleteMapping("/{productId}")
@@ -42,7 +42,7 @@ public class ProductController {
     }
 
     @GetMapping("/statistics/top10")
-    public List<Product> getTop10PopularProducts() {
+    public List<Furniture> getTop10PopularProducts() {
         return productService.getTop10Products();
     }
 }

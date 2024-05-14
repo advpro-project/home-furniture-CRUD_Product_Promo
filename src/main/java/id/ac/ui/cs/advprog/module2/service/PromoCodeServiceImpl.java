@@ -37,7 +37,7 @@ public class PromoCodeServiceImpl implements PromoCodeService {
             return promoCodeRepository.save(existingPromo);
         } else {
             // Handle case where product with given ID is not found
-            throw new RuntimeException("Product with ID " + promoId + " not found");
+            throw new RuntimeException("Furniture with ID " + promoId + " not found");
         }
     }
 
@@ -54,7 +54,7 @@ public class PromoCodeServiceImpl implements PromoCodeService {
         if (promoOptional.isPresent()) {
             return promoOptional.get();
         } else {
-            throw new RuntimeException("Product with ID " + promoId + " not found");
+            throw new RuntimeException("Furniture with ID " + promoId + " not found");
         }
     }
 }
