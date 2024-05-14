@@ -1,41 +1,78 @@
 package id.ac.ui.cs.advprog.module2.service;
-import id.ac.ui.cs.advprog.module2.repository.PromoCodeRepository;
 
+import id.ac.ui.cs.advprog.module2.model.PromoCode;
+import id.ac.ui.cs.advprog.module2.repository.PromoCodeRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-@DataJpaTest
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
+
+@SpringBootTest
 public class PromoCodeServiceTest {
 
     @Autowired
     private PromoCodeService promoCodeService;
 
     @MockBean
-    @Autowired
     private PromoCodeRepository promoCodeRepository;
 
     @Test
-    public void testApplyPromoCode_ValidPromoCode() {
+    public void testAddPromoCode() {
+        PromoCode promoCode = new PromoCode();
+        when(promoCodeRepository.save(promoCode)).thenReturn(promoCode);
 
-        // Define test data
-        String promoCode = "ABC123";
-        double discountPercentage = 10.0;
+        assertEquals(promoCode, promoCodeService.addPromoCode(promoCode));
+    }
 
-        // Mock behavior of dependencies
-        // when(promoCodeRepository.getDiscountPercentage(promoCode)).thenReturn(discountPercentage);
-        // when(productService.calculateTotalPrice()).thenReturn(100.0); // Assuming total price is 100.0
-        
-        // Call the method under test
-        // double totalPriceAfterDiscount = promoCodeService.applyPromoCode(promoCode);
+    @Test
+    public void testUpdatePromoCode() throws ExecutionException, InterruptedException {
+        Long promoId = 1L;
+        PromoCode newPromoCode = new PromoCode();
+        PromoCode existingPromoCode = new PromoCode();
 
-        // Verify that the correct methods were called with the correct arguments
-        // verify(promoCodeRepository).getDiscountPercentage(promoCode);
-        // verify(productService).calculateTotalPrice();
-        
-        // Verify the result
-        double expectedPriceAfterDiscount = 100.0 - (100.0 * discountPercentage / 100.0);
-        // assertEquals(expectedPriceAfterDiscount, totalPriceAfterDiscount);
+        when(promoCodeRepository.findById(promoId)).thenReturn(Optional.of(existingPromoCode));
+        when(promoCodeRepository.save(existingPromoCode)).thenReturn(existingPromoCode);
+
+        assertEquals(existingPromoCode, promoCodeService.updatePromoCode(promoId, newPromoCode));
+    }
+
+    @Test
+    public void testUpdatePromoCode_NotFound() {
+        Long promoId = 1L;
+        PromoCode newPromoCode = new PromoCode();
+
+        when(promoCodeRepository.findById(promoId)).thenReturn(Optional.empty());
+
+        assertThrows(RuntimeException.class, () -> promoCodeService.updatePromoCode(promoId, newPromoCode));
+    }
+
+    @Test
+    public void testGetPromoCodeById() throws ExecutionException, InterruptedException {
+        Long promoId = 1L;
+        PromoCode promoCode = new PromoCode();
+
+        when(promoCodeRepository.findById(promoId)).thenReturn(Optional.of(promoCode));
+
+        CompletableFuture<PromoCode> promoCodeFuture = promoCodeService.getPromoCodeById(promoId);
+        assertEquals(promoCode, promoCodeFuture.get());
+    }
+
+    @Test
+    public void testDeletePromoCode() {
+        Long promoId = 1L;
+
+        doNothing().when(promoCodeRepository).deleteById(promoId);
+
+        promoCodeService.deletePromoCode(promoId);
+
+        verify(promoCodeRepository, times(1)).deleteById(promoId);
     }
 }
