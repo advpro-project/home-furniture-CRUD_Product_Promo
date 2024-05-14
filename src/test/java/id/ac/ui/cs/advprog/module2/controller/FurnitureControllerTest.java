@@ -1,7 +1,7 @@
 package id.ac.ui.cs.advprog.module2.controller;
 
-import id.ac.ui.cs.advprog.module2.model.Product;
-import id.ac.ui.cs.advprog.module2.service.ProductServiceImpl;
+import id.ac.ui.cs.advprog.module2.model.Furniture;
+import id.ac.ui.cs.advprog.module2.service.FurnitureServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,28 +20,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @ExtendWith(MockitoExtension.class)
-public class ProductControllerTest {
+public class FurnitureControllerTest {
 
     @Mock
-    private ProductServiceImpl productService;
+    private FurnitureServiceImpl furnitureService;
 
     @InjectMocks
-    private ProductController productController;
+    private FurnitureController furnitureController;
 
     @Test
-    public void testGetAllProducts() throws Exception {
+    public void testGetAllFurnitures() throws Exception {
         // Arrange
-        Product product1 = new Product();
-        Product product2 = new Product();
-        List<Product> products = Arrays.asList(product1, product2);
+        Furniture Furniture1 = new Furniture();
+        Furniture Furniture2 = new Furniture();
+        List<Furniture> Furnitures = Arrays.asList(Furniture1, Furniture2);
         
-        when(productService.getAllProducts()).thenReturn(CompletableFuture.completedFuture(products));
+        when(furnitureService.getAllFurnitures()).thenReturn(CompletableFuture.completedFuture(Furnitures));
 
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(productController).build();
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(furnitureController).build();
 
         // Act & Assert
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("productList"));
+                .andExpect(view().name("FurniturePage"));
     }
 }

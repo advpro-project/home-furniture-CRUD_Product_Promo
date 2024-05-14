@@ -48,17 +48,13 @@ public class PromoCodeServiceImpl implements PromoCodeService {
 
     @Override
     @Async
-    public CompletableFuture<PromoCode> getPromoCodeById(Long productId) {
-        Optional<PromoCode> promoOptional = promoCodeRepository.findById(productId);
+    public CompletableFuture<PromoCode> getPromoCodeById(Long promoId) {
+        Optional<PromoCode> promoOptional = promoCodeRepository.findById(promoId);
         
         if (promoOptional.isPresent()) {
             return CompletableFuture.completedFuture(promoOptional.get());
         } else {
-<<<<<<< HEAD
-            throw new RuntimeException("Product with ID " + productId + " not found");
-=======
             throw new RuntimeException("Furniture with ID " + promoId + " not found");
->>>>>>> fffce66c8621e2e0328d77993a864922b7112de8
         }
     }
 }

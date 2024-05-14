@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.Optional;
 
 @Service
@@ -18,18 +18,18 @@ public class FurnitureServiceImpl implements FurnitureService {
     FurnitureRepository furnitureRepository;
 
     @Override
-    public Furniture addProduct(Furniture furniture) {
+    public Furniture addFurniture(Furniture furniture) {
         return furnitureRepository.save(furniture);
     }
 
     @Override
-    public Furniture updateProduct(UUID productId, Furniture newFurniture) {
-        Optional<Furniture> existingProductOptional = furnitureRepository.findById(productId);
+    public Furniture updateFurniture(Long FurnitureId, Furniture newFurniture) {
+        Optional<Furniture> existingFurnitureOptional = furnitureRepository.findById(FurnitureId);
         
-        if (existingProductOptional.isPresent()) {
-            Furniture existingFurniture = existingProductOptional.get();
+        if (existingFurnitureOptional.isPresent()) {
+            Furniture existingFurniture = existingFurnitureOptional.get();
 
-            // Update the existing product with new data
+            // Update the existing Furniture with new data
             existingFurniture.setName(newFurniture.getName());
             existingFurniture.setType(newFurniture.getType());
             existingFurniture.setDescription(newFurniture.getDescription());
@@ -37,40 +37,44 @@ public class FurnitureServiceImpl implements FurnitureService {
             existingFurniture.setOriginalPrice(newFurniture.getOriginalPrice());
             existingFurniture.setDiscountedPrice(newFurniture.getDiscountedPrice());
 
-            // Save the updated product back to the database
+            // Save the updated Furniture back to the database
             return furnitureRepository.save(existingFurniture);
         } else {
-            // Handle case where product with given ID is not found
-            throw new RuntimeException("Furniture with ID " + productId + " not found");
+            // Handle case where Furniture with given ID is not found
+            throw new RuntimeException("Furniture with ID " + FurnitureId + " not found");
         }
     }
 
     @Override
-    public void deleteProduct(UUID productId) {
-        Furniture furniture = getProductById(productId);
-        furnitureRepository.delete(furniture);
+    public void deleteFurniture(Long FurnitureId) {
+        CompletableFuture<Furniture> FurnitureFuture = getFurnitureById(FurnitureId);
+
+        FurnitureFuture.thenAccept(Furniture -> {
+            furnitureRepository.delete(Furniture);
+        }).join();
     }
 
     @Override
     @Async
-    public Furniture getProductById(UUID productId) {
-        Optional<Furniture> productOptional = furnitureRepository.findById(productId);
+    public CompletableFuture<Furniture> getFurnitureById(Long FurnitureId) {
+        Optional<Furniture> FurnitureOptional = furnitureRepository.findById(FurnitureId);
         
-        if (productOptional.isPresent()) {
-            return productOptional.get();
+        if (FurnitureOptional.isPresent()) {
+            return CompletableFuture.completedFuture(FurnitureOptional.get());
         } else {
-            throw new RuntimeException("Furniture with ID " + productId + " not found");
+            throw new RuntimeException("Furniture with ID " + FurnitureId + " not found");
         }
     }
 
     @Override
-    public List<Furniture> getTop10Products() {
+    public List<Furniture> getTop10Furnitures() {
         return furnitureRepository.findFirst10ByOrderBySoldQuantityDesc();
     }
 
     @Override
     @Async
-    public List<Furniture> getAllProducts() {
-        return furnitureRepository.findAll();
+    public CompletableFuture<List<Furniture>> getAllFurnitures() {
+        List<Furniture> allFurnitures = furnitureRepository.findAll();
+        return CompletableFuture.completedFuture(allFurnitures);
     }
 }
