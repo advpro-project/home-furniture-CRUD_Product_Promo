@@ -3,6 +3,8 @@ import id.ac.ui.cs.advprog.module2.model.Furniture;
 import id.ac.ui.cs.advprog.module2.repository.FurnitureRepository;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -18,11 +20,10 @@ import static org.mockito.Mockito.*;
 @DataJpaTest
 public class FurnitureServiceTest {
 
-    @Autowired
-    FurnitureServiceImpl productService;
+    @InjectMocks
+    FurnitureServiceImpl furnitureService;
 
-    @MockBean
-    @Autowired
+    @Mock
     FurnitureRepository furnitureRepository;
 
     @Test
@@ -32,7 +33,7 @@ public class FurnitureServiceTest {
         furniture.setId(productId);
         when(furnitureRepository.findById(productId)).thenReturn(Optional.of(furniture));
 
-        Furniture result = productService.getProductById(productId);
+        Furniture result = furnitureService.getProductById(productId);
 
         assertEquals(productId, result.getId());
     }
@@ -44,7 +45,7 @@ public class FurnitureServiceTest {
         List<Furniture> furnitures = Arrays.asList(furniture1, furniture2);
         when(furnitureRepository.findAll()).thenReturn(furnitures);
 
-        List<Furniture> result = productService.getAllProducts();
+        List<Furniture> result = furnitureService.getAllProducts();
 
         assertEquals(furnitures.size(), result.size());
     }
@@ -52,7 +53,7 @@ public class FurnitureServiceTest {
     @Test
     public void testAddProduct() {
         Furniture furniture = new Furniture();
-        productService.addProduct(furniture);
+        furnitureService.addProduct(furniture);
         verify(furnitureRepository, times(1)).save(furniture);
     }
 
@@ -67,7 +68,7 @@ public class FurnitureServiceTest {
         updatedFurniture.setId(productId);
         updatedFurniture.setName("Updated Furniture");
 
-        productService.updateProduct(productId, updatedFurniture);
+        furnitureService.updateProduct(productId, updatedFurniture);
 
         verify(furnitureRepository, times(1)).save(updatedFurniture);
     }
@@ -75,7 +76,7 @@ public class FurnitureServiceTest {
     @Test
     public void testDeleteProduct() {
         UUID productId = UUID.randomUUID();
-        productService.deleteProduct(productId);
+        furnitureService.deleteProduct(productId);
         verify(furnitureRepository, times(1)).deleteById(productId);
     }
 }
