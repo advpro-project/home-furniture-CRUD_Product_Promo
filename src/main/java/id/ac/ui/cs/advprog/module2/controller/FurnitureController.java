@@ -20,6 +20,11 @@ public class FurnitureController {
         return FurnitureService.getAllFurnitures().join();
     }
 
+    @GetMapping("/get/{furnitureId}")
+    public Furniture getFurniture(@PathVariable Long furnitureId) {
+        return FurnitureService.getFurnitureById(furnitureId).join();
+    }
+
     @PostMapping("/register")
     public Furniture registerFurniture(@RequestBody Furniture furniture) {
         return FurnitureService.addFurniture(furniture);

@@ -1,46 +1,56 @@
 package id.ac.ui.cs.advprog.module2.controller;
 
-import id.ac.ui.cs.advprog.module2.model.PromoCode;
-import id.ac.ui.cs.advprog.module2.service.PromoCodeService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import id.ac.ui.cs.advprog.module2.model.PromoCode;
+import id.ac.ui.cs.advprog.module2.service.PromoCodeServiceImpl;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+import static org.mockito.Mockito.when;
+
+@WebMvcTest(PromoCodeController.class)
 public class PromoCodeControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
-    private PromoCodeService promoCodeService;
+    @Mock
+    private PromoCodeServiceImpl promoCodeService;
 
-    @BeforeEach
-    public void setup() {
-        // Initialize your mock service here if needed
-    }
+    @InjectMocks
+    private PromoCodeController promoCodeController;
 
     @Test
-    public void whenGetPromoCode_returnOk() throws Exception {
-        // Assuming the method takes a promo code ID as a parameter
-        Long promoCodeId = 1L;
+    public void testGetAllPromoCodes() throws Exception {
+        PromoCode promoCode1 = new PromoCode();
+        promoCode1.setName("PROMO12");
+        promoCode1.setMinimumPurchase(5);
 
-        // Mock the service call
-        when(promoCodeService.getPromoCodeById(promoCodeId)).thenReturn(new CompletableFuture<PromoCode>());
+        PromoCode promoCode2 = new PromoCode();
+        promoCode1.setName("PROMO34");
+        promoCode1.setMinimumPurchase(10);
 
-        // Perform the GET request
-        mockMvc.perform(get("/promoCode/" + promoCodeId))
-                .andExpect(status().isOk());
+        List<PromoCode> promoCodes = Arrays.asList(promoCode1, promoCode2);
+
+        when(promoCodeService.getAllPromoCodes()).thenReturn(CompletableFuture.completedFuture(promoCodes));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/promos/all")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].code").value("PROMO1"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].discount").value(10))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].code").value("PROMO2"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].discount").value(20));
     }
 }
