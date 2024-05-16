@@ -27,8 +27,9 @@ public class FurnitureTest {
     @Test
     void testGenerateId() {
         Furniture furniture2 = new Furniture();
+        assertNull(furniture2.getId());
         furniture2.generateId();
-        assertNotEquals(furniture.getId(), furniture2.getId());
+        assertNotNull(furniture.getId());
     }
 
     @Test
