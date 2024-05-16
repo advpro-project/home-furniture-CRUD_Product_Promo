@@ -1,5 +1,6 @@
 package id.ac.ui.cs.advprog.module2.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 

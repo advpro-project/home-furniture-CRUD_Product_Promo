@@ -12,6 +12,7 @@ public class FurnitureTest {
     @BeforeEach
     void setUp() {
         this.furniture = new Furniture();
+        this.furniture.setInternalId(1L);
         this.furniture.setId(UUID.fromString("eb558e9f-1c39-460e-8860-71af6af63bd6"));
         this.furniture.setName("Furniture 1");
         this.furniture.setType("Type A");
@@ -21,6 +22,18 @@ public class FurnitureTest {
         this.furniture.setOriginalPrice(1000);
         this.furniture.setDiscountedPrice(500);
         this.furniture.setHasDiscount(true);
+    }
+
+    @Test
+    void testGenerateId() {
+        Furniture furniture2 = new Furniture();
+        furniture2.generateId();
+        assertNotEquals(furniture.getId(), furniture2.getId());
+    }
+
+    @Test
+    void testGetFurnitureInternalId() {
+        assertEquals(1L, this.furniture.getInternalId());
     }
 
     @Test
