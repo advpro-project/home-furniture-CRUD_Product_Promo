@@ -1,29 +1,28 @@
 package id.ac.ui.cs.advprog.module2.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.http.MediaType;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import id.ac.ui.cs.advprog.module2.model.PromoCode;
 import id.ac.ui.cs.advprog.module2.service.PromoCodeServiceImpl;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(PromoCodeController.class)
+@ExtendWith(MockitoExtension.class)
 public class PromoCodeControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
 
     @Mock
     private PromoCodeServiceImpl promoCodeService;
@@ -33,24 +32,22 @@ public class PromoCodeControllerTest {
 
     @Test
     public void testGetAllPromoCodes() throws Exception {
-        PromoCode promoCode1 = new PromoCode();
-        promoCode1.setName("PROMO12");
-        promoCode1.setMinimumPurchase(5);
-
-        PromoCode promoCode2 = new PromoCode();
-        promoCode1.setName("PROMO34");
-        promoCode1.setMinimumPurchase(10);
-
-        List<PromoCode> promoCodes = Arrays.asList(promoCode1, promoCode2);
+        // Arrange
+        PromoCode Furniture1 = new PromoCode();
+        PromoCode Furniture2 = new PromoCode();
+        List<PromoCode> promoCodes = Arrays.asList(Furniture1, Furniture2);
 
         when(promoCodeService.getAllPromoCodes()).thenReturn(CompletableFuture.completedFuture(promoCodes));
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/promos/all")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].code").value("PROMO1"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].discount").value(10))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].code").value("PROMO2"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].discount").value(20));
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(promoCodeController).build();
+
+        // Convert the expected result to JSON string
+        ObjectMapper objectMapper = new ObjectMapper();
+        String expectedJson = objectMapper.writeValueAsString(promoCodes);
+
+        // Act & Assert
+        mockMvc.perform(get("/promos/all"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedJson));
     }
 }

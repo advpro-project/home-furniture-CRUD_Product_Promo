@@ -29,7 +29,7 @@ public class PromoCodeRepositoryTest {
         promoCodeRepository.save(promoCode);
 
         // Retrieve the saved PromoCode from the repository
-        PromoCode savedPromoCode = entityManager.find(PromoCode.class, promoCode.getId());
+        PromoCode savedPromoCode = entityManager.find(PromoCode.class, promoCode.getInternalId());
 
         // Verify that the saved PromoCode is not null
         assertThat(savedPromoCode).isNotNull();

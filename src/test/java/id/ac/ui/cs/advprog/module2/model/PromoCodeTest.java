@@ -12,6 +12,6 @@ public class PromoCodeTest {
         promoCode.setDescription("10% discount");
 
         assertEquals("PROMO10", promoCode.getName());
-        assertEquals(10.0, promoCode.getDescription());
+        assertEquals("10% discount", promoCode.getDescription());
     }
 }
