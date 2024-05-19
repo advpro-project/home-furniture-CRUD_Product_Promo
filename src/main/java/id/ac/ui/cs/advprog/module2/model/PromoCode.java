@@ -20,4 +20,11 @@ public class PromoCode {
     private String description;
     private double minimumPurchase;
     private String validUntil;
+
+    @PrePersist
+    public void generateId() {
+        if (this.id == null) {
+            this.id = UUID.randomUUID();
+        }
+    }
 }

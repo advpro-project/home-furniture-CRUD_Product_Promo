@@ -41,29 +41,30 @@ public class FurnitureServiceImpl implements FurnitureService {
             return furnitureRepository.save(existingFurniture);
         } else {
             // Handle case where Furniture with given ID is not found
-            throw new RuntimeException("Furniture with ID " + FurnitureId + " not found");
+            return null;
         }
     }
 
     @Override
-    public void deleteFurniture(Long FurnitureId) {
+    public Furniture deleteFurniture(Long FurnitureId) {
         CompletableFuture<Furniture> FurnitureFuture = getFurnitureById(FurnitureId);
 
-        FurnitureFuture.thenAccept(Furniture -> {
-            furnitureRepository.delete(Furniture);
-        }).join();
+        if (FurnitureFuture == null) {
+            return null;
+        } else {
+            FurnitureFuture.thenAccept(Furniture -> {
+                furnitureRepository.delete(Furniture);
+            }).join();
+            return FurnitureFuture.join();
+        }
     }
 
     @Override
     @Async
     public CompletableFuture<Furniture> getFurnitureById(Long FurnitureId) {
         Optional<Furniture> FurnitureOptional = furnitureRepository.findById(FurnitureId);
-        
-        if (FurnitureOptional.isPresent()) {
-            return CompletableFuture.completedFuture(FurnitureOptional.get());
-        } else {
-            throw new RuntimeException("Furniture with ID " + FurnitureId + " not found");
-        }
+
+        return FurnitureOptional.map(CompletableFuture::completedFuture).orElse(null);
     }
 
     @Override

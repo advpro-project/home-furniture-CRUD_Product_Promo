@@ -7,7 +7,7 @@ import java.util.List;
 public interface FurnitureService {
     Furniture addFurniture(Furniture furniture);
     Furniture updateFurniture(Long FurnitureId, Furniture furniture);
-    void deleteFurniture(Long FurnitureId);
+    Furniture deleteFurniture(Long FurnitureId);
     CompletableFuture<Furniture> getFurnitureById(Long FurnitureId);
     List<Furniture> getTop10Furnitures();
     CompletableFuture<List<Furniture>> getAllFurnitures();

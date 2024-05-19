@@ -45,16 +45,6 @@ public class PromoCodeServiceTest {
     }
 
     @Test
-    public void testUpdatePromoCode_NotFound() {
-        Long promoId = 1L;
-        PromoCode newPromoCode = new PromoCode();
-
-        when(promoCodeRepository.findById(promoId)).thenReturn(Optional.empty());
-
-        assertThrows(RuntimeException.class, () -> promoCodeService.updatePromoCode(promoId, newPromoCode));
-    }
-
-    @Test
     public void testGetPromoCodeById() throws ExecutionException, InterruptedException {
         Long promoId = 1L;
         PromoCode promoCode = new PromoCode();
@@ -68,11 +58,14 @@ public class PromoCodeServiceTest {
     @Test
     public void testDeletePromoCode() {
         Long promoId = 1L;
+        PromoCode promoCode = new PromoCode();
 
+        when(promoCodeRepository.findById(promoId)).thenReturn(Optional.of(promoCode));
         doNothing().when(promoCodeRepository).deleteById(promoId);
 
-        promoCodeService.deletePromoCode(promoId);
+        PromoCode deletedPromoCode = promoCodeService.deletePromoCode(promoId);
 
         verify(promoCodeRepository, times(1)).deleteById(promoId);
+        assertEquals(promoCode, deletedPromoCode);
     }
 }

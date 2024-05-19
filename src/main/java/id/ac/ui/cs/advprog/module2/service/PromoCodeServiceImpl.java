@@ -37,25 +37,29 @@ public class PromoCodeServiceImpl implements PromoCodeService {
             return promoCodeRepository.save(existingPromo);
         } else {
             // Handle case where product with given ID is not found
-            throw new RuntimeException("Furniture with ID " + promoId + " not found");
+            return null;
         }
     }
 
     @Override
-    public void deletePromoCode(Long promoId) {
-        promoCodeRepository.deleteById(promoId);
+    public PromoCode deletePromoCode(Long promoId) {
+        Optional<PromoCode> existingPromoOptional = promoCodeRepository.findById(promoId);
+
+        if (existingPromoOptional.isPresent()) {
+            PromoCode existingPromo = existingPromoOptional.get();
+            promoCodeRepository.deleteById(promoId);
+            return(existingPromo);
+        } else {
+            return null;
+        }
     }
 
     @Override
     @Async
     public CompletableFuture<PromoCode> getPromoCodeById(Long promoId) {
         Optional<PromoCode> promoOptional = promoCodeRepository.findById(promoId);
-        
-        if (promoOptional.isPresent()) {
-            return CompletableFuture.completedFuture(promoOptional.get());
-        } else {
-            throw new RuntimeException("Furniture with ID " + promoId + " not found");
-        }
+
+        return promoOptional.map(CompletableFuture::completedFuture).orElse(null);
     }
 
     @Override
