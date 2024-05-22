@@ -48,21 +48,21 @@ public class FurnitureFilterDaoTest {
         furniture1.setType("Type A");
         furniture1.setHasDiscount(true);
         furniture1.setDiscountedPrice(100);
-        this.entityManager.merge(furniture1);
+        this.entityManager.persist(furniture1);
 
         Furniture furniture2 = new Furniture();
         furniture2.setName("Furniture 1");
         furniture2.setType("Type A");
         furniture2.setHasDiscount(true);
         furniture2.setDiscountedPrice(500);
-        this.entityManager.merge(furniture2);
+        this.entityManager.persist(furniture2);
 
         Furniture furniture3 = new Furniture();
         furniture3.setName("Furniture 1");
         furniture3.setType("Type A");
         furniture3.setDiscountedPrice(1000);
         furniture3.setHasDiscount(true);
-        this.entityManager.merge(furniture3);
+        this.entityManager.persist(furniture3);
     }
 
     @Test
