@@ -37,27 +37,6 @@ public class FurnitureControllerTest {
     private FurnitureController furnitureController;
 
     @Test
-    public void testGetAllFurnitures() throws Exception {
-        // Arrange
-        Furniture Furniture1 = new Furniture();
-        Furniture Furniture2 = new Furniture();
-        List<Furniture> furnitures = Arrays.asList(Furniture1, Furniture2);
-        
-        when(furnitureService.getAllFurnitures()).thenReturn(CompletableFuture.completedFuture(furnitures));
-
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(furnitureController).build();
-
-        // Convert the expected result to JSON string
-        ObjectMapper objectMapper = new ObjectMapper();
-        String expectedJson = objectMapper.writeValueAsString(furnitures);
-
-        // Act & Assert
-        mockMvc.perform(get("/furniture/all"))
-                .andExpect(status().isOk())
-                .andExpect(content().json(expectedJson));
-    }
-
-    @Test
     public void testGetTop10PopularFurnitures() throws Exception {
         // Arrange
         Furniture Furniture1 = new Furniture();

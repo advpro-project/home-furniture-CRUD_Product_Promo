@@ -3,6 +3,8 @@ package id.ac.ui.cs.advprog.module2.service;
 import id.ac.ui.cs.advprog.module2.model.PromoCode;
 import id.ac.ui.cs.advprog.module2.repository.PromoCodeRepository;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -18,10 +20,10 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 public class PromoCodeServiceTest {
 
-    @Autowired
-    private PromoCodeService promoCodeService;
+    @InjectMocks
+    private PromoCodeServiceImpl promoCodeService;
 
-    @MockBean
+    @Mock
     private PromoCodeRepository promoCodeRepository;
 
     @Test
