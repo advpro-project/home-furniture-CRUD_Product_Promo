@@ -56,8 +56,9 @@ public class FurnitureFilterDao {
 
         List<Predicate> predicates = new ArrayList<>();
         if (furnitureFilter.getName() != null) {
-            Predicate searchKeywordNamePredicate = predicateBuilder
-                    .like(furnitureRoot.get("name"), "%" + furnitureFilter.getName() + "%");
+            Predicate searchKeywordNamePredicate = predicateBuilder.like(
+                    predicateBuilder.lower(furnitureRoot.get("name")),
+                    "%" + furnitureFilter.getName().toLowerCase() + "%");
             predicates.add(searchKeywordNamePredicate);
         }
 
