@@ -70,7 +70,7 @@ jobs:
           args:
             # Unique keys of your project and organization. You can find them in SonarCloud > Information (bottom-left menu)
             # mandatory
-            -Dsonar.projectKey=advpro-project_home-furniture-authentication
+            -Dsonar.projectKey=advpro-project_home-furniture-CRUD_Product_Promo
             -Dsonar.organization=advpro-project
             -Dsonar.java.binaries=.
             -Dsonar.sources=src/main/java

@@ -1,5 +1,7 @@
 # home-furniture-CRUD_Product_Promo
-This is back-end repository for operations with Product and Promo
+This is branch naufal-develop, in purpose for search and f ilter furnitures features
 
-deploy1: test deploy
-deploy2: add image test
+### Debug Error
+debug1: test sonarcloud
+debug2: redo integration test on ci
+debug3: redo integration test on ci
