@@ -63,6 +63,8 @@ public class FurnitureFilterDaoTest {
         furniture3.setDiscountedPrice(1000);
         furniture3.setHasDiscount(true);
         this.entityManager.persist(furniture3);
+
+        this.entityManager.flush();
     }
 
     @Test
