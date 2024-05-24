@@ -9,6 +9,8 @@ debug3: redo integration test on ci
 ## Code Diagram Tutorial 12
 ### Container Diagram
 ![Alt text](assets/images/img4.png)
+### Component Diagram
+![Alt text](assets/images/CrudPromoProduct.png)
 ### Code Diagram 1
 ![Alt text](assets/images/img.png)   
 ### Code Diagram 2
