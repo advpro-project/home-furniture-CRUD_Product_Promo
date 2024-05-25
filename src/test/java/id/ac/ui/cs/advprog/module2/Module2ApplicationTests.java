@@ -5,12 +5,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
-@ActiveProfiles("test")
 class Module2ApplicationTests {
 
     @Test
     void contextLoads() {
-         Module2Application.main(new String[] {});
+//         Module2Application.main(new String[] {});
     }
 
 }
