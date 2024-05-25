@@ -17,10 +17,16 @@ public class FurnitureFilterController {
     @Autowired
     FurnitureFilterService furnitureFilterService;
 
-    @GetMapping("/getFurnitures")
+    @GetMapping("/list")
     public ResponseEntity<Page<Furniture>> getFurnitures(@ModelAttribute FurnitureFilter furnitureFilter,
                                                          @ModelAttribute FurniturePage furniturePage)
     {
+        if (furniturePage.getPageNumber() < 1) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        furniturePage.setPageNumber(furniturePage.getPageNumber() - 1);
+
         return ResponseEntity.ok(furnitureFilterService.getFurnitures(furnitureFilter, furniturePage));
     }
 }

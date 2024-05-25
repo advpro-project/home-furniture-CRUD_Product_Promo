@@ -7,5 +7,5 @@ import lombok.Setter;
 @Setter
 public class FurniturePage {
     private int pageSize = 32;
-    private int pageNumber = 0;
+    private int pageNumber = 1;
 }

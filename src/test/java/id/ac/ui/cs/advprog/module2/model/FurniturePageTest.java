@@ -15,7 +15,7 @@ public class FurniturePageTest {
 
     @Test
     void testGetDefaultPageNumber() {
-        assertEquals(0, furniturePage.getPageNumber());
+        assertEquals(1, furniturePage.getPageNumber());
     }
 
     @Test
@@ -25,8 +25,8 @@ public class FurniturePageTest {
 
     @Test
     void testGetCustomPageNumber() {
-        furniturePage.setPageNumber(1);
-        assertEquals(1, furniturePage.getPageNumber());
+        furniturePage.setPageNumber(2);
+        assertEquals(2, furniturePage.getPageNumber());
     }
 
     @Test

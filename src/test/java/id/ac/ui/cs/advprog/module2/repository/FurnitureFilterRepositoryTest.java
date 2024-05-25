@@ -74,7 +74,7 @@ public class FurnitureFilterRepositoryTest {
         Page<Furniture> pages = furnitureFilterRepository.findAllWithFilter(furnitureFilter, furniturePage);
         logger.info("Page Contains -> {}", pages);
 
-        assertEquals(0, pages.getNumber());
+        assertEquals(1, pages.getNumber());
         assertEquals(32, pages.getSize());
         assertEquals(3, pages.getTotalElements());
         assertEquals(1, pages.getTotalPages());

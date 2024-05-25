@@ -63,6 +63,8 @@ public class FurnitureFilterControllerTest {
         // pageable
         Pageable pageable = PageRequest.of(0, 32);
 
+        when(furniturePage.getPageNumber()).thenReturn(1);
+
         when(furnitureFilterService.getFurnitures(furnitureFilter, furniturePage))
                 .thenReturn(new PageImpl<>(listOfFurniture, pageable, 3));
 
