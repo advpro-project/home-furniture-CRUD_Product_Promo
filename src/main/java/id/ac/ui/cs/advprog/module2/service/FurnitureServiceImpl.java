@@ -52,8 +52,10 @@ public class FurnitureServiceImpl implements FurnitureService {
         if (furnitureFuture == null) {
             return null;
         } else {
-            furnitureFuture.thenAccept(Furniture -> {
-                furnitureRepository.delete(Furniture);
+          
+            furnitureFuture.thenAccept(furniture -> {
+                furnitureRepository.delete(furniture);
+
             }).join();
             return furnitureFuture.join();
         }
