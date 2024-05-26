@@ -6,6 +6,11 @@ debug1: test sonarcloud
 debug2: redo integration test on ci
 debug3: redo integration test on ci
 
+### Profiling
+![Alt text](assets/images/profiling1.png)
+![Alt text](assets/images/profiling2.png)
+Dapat dilihan bahwa method-method yang saya buat hanya memakan resource yang terbilang sedikit sehingga optimalisasi lebih lanjut belum diperlukan
+
 ## Code Diagram Tutorial 12
 ### Container Diagram
 ![Alt text](assets/images/img4.png)
