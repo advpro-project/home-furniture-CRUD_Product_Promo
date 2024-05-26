@@ -23,8 +23,8 @@ public class FurnitureServiceImpl implements FurnitureService {
     }
 
     @Override
-    public Furniture updateFurniture(Long FurnitureId, Furniture newFurniture) {
-        Optional<Furniture> existingFurnitureOptional = furnitureRepository.findById(FurnitureId);
+    public Furniture updateFurniture(Long furnitureId, Furniture newFurniture) {
+        Optional<Furniture> existingFurnitureOptional = furnitureRepository.findById(furnitureId);
 
         if (existingFurnitureOptional.isPresent()) {
             Furniture existingFurniture = existingFurnitureOptional.get();
@@ -47,24 +47,24 @@ public class FurnitureServiceImpl implements FurnitureService {
 
     @Override
     public Furniture deleteFurniture(Long FurnitureId) {
-        CompletableFuture<Furniture> FurnitureFuture = getFurnitureById(FurnitureId);
+        CompletableFuture<Furniture> furnitureFuture = getFurnitureById(FurnitureId);
 
-        if (FurnitureFuture == null) {
+        if (furnitureFuture == null) {
             return null;
         } else {
-            FurnitureFuture.thenAccept(Furniture -> {
-                furnitureRepository.delete(Furniture);
+            furnitureFuture.thenAccept(furniture -> {
+                furnitureRepository.delete(furniture);
             }).join();
-            return FurnitureFuture.join();
+            return furnitureFuture.join();
         }
     }
 
     @Override
     @Async
-    public CompletableFuture<Furniture> getFurnitureById(Long FurnitureId) {
-        Optional<Furniture> FurnitureOptional = furnitureRepository.findById(FurnitureId);
+    public CompletableFuture<Furniture> getFurnitureById(Long furnitureId) {
+        Optional<Furniture> furnitureOptional = furnitureRepository.findById(furnitureId);
 
-        return FurnitureOptional.map(CompletableFuture::completedFuture).orElse(null);
+        return furnitureOptional.map(CompletableFuture::completedFuture).orElse(null);
     }
 
     @Override

@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.*;
 public class FurnitureController {
 
     @Autowired
-    FurnitureServiceImpl FurnitureService;
+    FurnitureServiceImpl furnitureService;
 
     @GetMapping("/get/{furnitureId}")
     public ResponseEntity<Furniture> getFurniture(@PathVariable Long furnitureId) {
-        Furniture furniture = FurnitureService.getFurnitureById(furnitureId).join();
+        Furniture furniture = furnitureService.getFurnitureById(furnitureId).join();
         if (furniture == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -29,13 +29,13 @@ public class FurnitureController {
 
     @PostMapping("/register")
     public ResponseEntity<Furniture> registerFurniture(@RequestBody Furniture furniture) {
-        Furniture newFurniture = FurnitureService.addFurniture(furniture);
+        Furniture newFurniture = furnitureService.addFurniture(furniture);
         return new ResponseEntity<>(newFurniture, HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{furnitureId}")
     public ResponseEntity<Furniture> updateFurniture(@PathVariable Long furnitureId, @RequestBody Furniture furniture) {
-        Furniture updatedFurniture = FurnitureService.updateFurniture(furnitureId, furniture);
+        Furniture updatedFurniture = furnitureService.updateFurniture(furnitureId, furniture);
         if (updatedFurniture == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -44,7 +44,7 @@ public class FurnitureController {
 
     @DeleteMapping("/delete/{furnitureId}")
     public ResponseEntity<Furniture> deleteFurniture(@PathVariable Long furnitureId) {
-        Furniture deletedFurniture = FurnitureService.deleteFurniture(furnitureId);
+        Furniture deletedFurniture = furnitureService.deleteFurniture(furnitureId);
         if (deletedFurniture == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -53,7 +53,7 @@ public class FurnitureController {
 
     @GetMapping("/statistics/top10")
     public ResponseEntity<List<Furniture>> getTop10PopularFurnitures() {
-        List<Furniture> furnitures = FurnitureService.getTop10Furnitures();
+        List<Furniture> furnitures = furnitureService.getTop10Furnitures();
         return new ResponseEntity<>(furnitures, HttpStatus.OK);
     }
 }
