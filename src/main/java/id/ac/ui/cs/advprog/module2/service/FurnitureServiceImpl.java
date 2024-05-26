@@ -46,14 +46,16 @@ public class FurnitureServiceImpl implements FurnitureService {
     }
 
     @Override
-    public Furniture deleteFurniture(Long FurnitureId) {
-        CompletableFuture<Furniture> furnitureFuture = getFurnitureById(FurnitureId);
+    public Furniture deleteFurniture(Long furnitureId) {
+        CompletableFuture<Furniture> furnitureFuture = getFurnitureById(furnitureId);
 
         if (furnitureFuture == null) {
             return null;
         } else {
+          
             furnitureFuture.thenAccept(furniture -> {
                 furnitureRepository.delete(furniture);
+
             }).join();
             return furnitureFuture.join();
         }
